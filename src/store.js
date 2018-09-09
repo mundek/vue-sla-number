@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    storeMsg: 'Hello from your Vuex store.'
+    storeMsg: 'Store: Open'
   },
   mutations: {
     setStartState: () => {

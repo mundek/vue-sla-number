@@ -1,9 +1,9 @@
 <template>
   <div class="AppFooter">
     <hr/>
-    <button @click="restartQuiz">Restart Quiz</button>
-    <button @click="beginQuiz">Begin Quiz</button>
-    <button @click="displayResults">Show Results</button>
+    <button class="ui basic button" @click="restartQuiz">(Re)start Quiz</button>
+    <button class="ui basic button" @click="beginQuiz">Begin Quiz</button>
+    <button class="ui basic button" @click="displayResults">Show Results</button>
     <h3>store message: {{ theStoreMsg }}</h3>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
   computed: {
     ...mapGetters(['theStoreMsg'])
   },
-  methods: {
+  methods: {  
     ...mapActions(['restartQuiz', 'beginQuiz', 'displayResults'])
   }
 }

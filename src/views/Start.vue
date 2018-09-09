@@ -1,11 +1,23 @@
 <template>
-  <div class="start">
-    <h1>This is the start page</h1>
-    <p>The initial parameters for the app will be set here:</p>
-    <ul>
-      <li>range of random numbers (0&lt;=N&lt;=999)</li>
-      <li>number of questions</li>
-    </ul>
+  <div class="start start-container">
+      <h3>Choose your range of numbers to practice:</h3>
+      <div class="ui input">
+        <p/>
+        <h4>from&nbsp;&nbsp;</h4>
+        <input type="number" size=4 maxlength="3" placeholder="###" class="ui input"/>
+        <h4>&nbsp;to&nbsp;</h4>
+        <input type="number" size=4 maxlength="3" placeholder="###">
+      </div>
+      <h3>Choose how many questions you want to answer:</h3>
+      <div class="ui input">
+        <input type="number" size=4 maxlength="3" placeholder="###" class="focus" style="width:20px;">
+        <button class="ui right floated button">Begin</button>
+      </div>
+      <div>&nbsp;</div>
+      <div>
+
+      </div>
+    
   </div>
 </template>
 
@@ -15,5 +27,10 @@ export default {
 };
 </script>
 
-<style>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  .start-container {
+    display: inline-grid;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
 </style>

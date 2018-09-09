@@ -1,5 +1,5 @@
 <template>
-  <div class="results">
+  <div class="results grid-container">
     <h1>This is the results page</h1>
     <p>The results of a user's interactions with the app will be displayed here:</p>
     <ul>

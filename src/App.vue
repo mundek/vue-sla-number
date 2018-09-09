@@ -1,16 +1,16 @@
 <template>
-    <div>
-        <app-header />
-        <div class="ui container">
+    <div class="the-app-container">
+        <div><app-header /></div>
+        <div>
             <router-view />
         </div>
-        <app-footer />
+        <div><app-footer /></div>
     </div>
 </template>
 
 <script>
 import AppHeader from './components/AppHeader';
-import AppFooter from './components/AppFooter';
+import AppFooter from './components/AppFooter'
 
 export default {
     name: 'App',
@@ -21,5 +21,10 @@ export default {
 };
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+  .the-app-container {
+    display: inline-grid;
+    grid-template-rows: 70% auto auto;
+  }
 </style>
