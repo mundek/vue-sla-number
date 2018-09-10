@@ -31,6 +31,7 @@ export default {
 <style scoped>
   .start-container {
     display: inline-grid;
-    grid-template-rows: 1fr 1fr 1fr;
+
+    grid-template-rows: repeat(3, minmax(auto, 80%));
   }
 </style>

@@ -1,23 +1,52 @@
 <template>
-  <div class="results grid-container">
-    <h1>This is the results page</h1>
-    <p>The results of a user's interactions with the app will be displayed here:</p>
-    <ul>
-      <li>interactive list of responses; on each line:</li>
-        <ul>
-          <li>user's response</li>
-          <li>click/hover action to replay number</li>
-          <li>hover action to see correct answer (expected response)</li>
-        </ul>
-    </ul>
+  <div class="results results-container">
+    <div class="theResults">
+      <h3>
+        {{ quizResults[0] }}
+      </h3>
+      <h3>
+        {{ quizResults[1] }}
+      </h3>
+    </div>
+    <div class="stats">
+      <p>75% correct</p>
+      <p>9 out of 12 questions</p>
+      <p>20 questions total</p>
+    </div>
+    <div class="restartBt" style="">
+      <button class="ui button">New Quiz</button>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-    name: 'Results'
+    name: 'Results',
+    computed: {
+      ...mapGetters(['quizResults'])
+    }
 };
 </script>
 
-<style>
+<style scoped>
+  .results-container {
+    display:grid;
+    grid-gap: 10px;
+    grid-template-areas: 
+      "dispRes dispStats"
+      "dispRes dispRestart";
+    grid-template-columns: auto 35%;
+    grid-template-rows: auto auto;
+  }
+  .theResults {
+    grid-area: dispRes;
+  }
+  .stats {
+    grid-area: dispStats;
+  }
+  .restartBt {
+    grid-area: dispRestart;
+  }
 </style>

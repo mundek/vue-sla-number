@@ -2,17 +2,17 @@
   <div class="quiz">
     <div class="quiz-container">
       <div class="ui left icon input">
-        <input type="number" style="min-width:25%;max-width:50%" placeholder="#?">
+        <input type="number" style="min-width:40%;max-width:60%" placeholder="#?">
         <i class="circular volume up icon"></i>
       </div>
-      <div>
+      <div style="justify-self:right;">
         <p>75% correct</p>
         <p>9 out of 12 questions</p>
         <p>20 questions total</p>
       </div>
       <div>&nbsp;</div>
-      <div style="justify-self:end">
-        <button class="ui right floated button">Finish</button>
+      <div style="justify-self:end;align:left">
+        <button class="ui button">Finish</button>
       </div>
     </div>
   </div>
@@ -27,11 +27,9 @@ export default {
 <style scoped>
   .quiz-container {
     display:inline-grid;
-    grid-template-columns: 50% auto;
-    grid-template-rows: auto auto;
-    justify-items: left;
-    grid-gap: 10px;
-    align-items: center;
-    justify-content:space-around;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2, minmax(auto, 80%));
+    grid-gap: 20px;
+    align-items:center;
   }
 </style>

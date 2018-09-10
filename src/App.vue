@@ -1,5 +1,5 @@
 <template>
-    <div class="the-app-container">
+    <div style="width:400px" class="the-app-container">
         <div><app-header /></div>
         <div>
             <router-view />
@@ -25,6 +25,7 @@ export default {
 <style>
   .the-app-container {
     display: inline-grid;
-    grid-template-rows: 70% auto auto;
+    grid-template-columns: 125%;
+    grid-template-rows: auto auto auto;
   }
 </style>

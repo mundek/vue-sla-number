@@ -7,7 +7,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    storeMsg: 'Store: Open'
+    storeMsg: 'Store: Open',
+    randNumArr: [23, 55, 77, 80, 12],
+    userAnswerArr: [23, 55, 67, 80, 2]
   },
   mutations: {
     setStartState: () => {
@@ -34,6 +36,9 @@ export default new Vuex.Store({
   getters: {
     theStoreMsg: (state) => {
       return state.storeMsg;
+    },
+    quizResults: (state) => {
+      return [state.randNumArr, state.userAnswerArr];
     }
   }
 })
