@@ -25,7 +25,6 @@ export default {
 <style>
   .the-app-container {
     display: inline-grid;
-    grid-template-columns: 125%;
     grid-template-rows: auto auto auto;
   }
 </style>
