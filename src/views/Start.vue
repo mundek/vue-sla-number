@@ -3,13 +3,13 @@
     <div class="theRangeHeader"><h3>Choose your range of numbers to practice:</h3></div>
     <div class="theRange" style="margin:1em 0em;">
       <h4 style="display:inline-block;margin:0;">from&nbsp;&nbsp;</h4>
-      <input type="number" style="width:4em" size=4 placeholder="###"/>
+      <input type="number" style="width:4em" size=4 placeholder="0" />
       <h4 style="display:inline-block;margin:0;">&nbsp;to&nbsp;</h4>
-      <input type="number" style="width:4em" size=4 placeholder="###">
+      <input type="number" style="width:10em" size=10 placeholder="999" />&nbsp;(max: 999,999,999)
     </div>
-    <div class="theNumbersHeader"><h3>Choose how many questions you want to answer:</h3></div>
+    <div class="theNumbersHeader"><h3>Choose how many randomly chosen numbers you want to try:</h3></div>
     <div class="theNumbers">
-      <div style="margin:1em 0;"><input type="number" size=4 maxlength="3" placeholder="20" style="width:3em;"></div>
+      <div style="margin:1em 0;"><input type="number" size=4 maxlength="3" placeholder="20" style="width:3em;">&nbsp;(max: 20)</div>
     </div>
     <div class="theButton" style="text-align:right;">
       <button class="ui button">Begin</button>
@@ -43,13 +43,11 @@ export default {
   .theNumbers {
     grid-area: theNumbers;
     grid-template-rows: 1fr 1fr;
-
   }
   .theButton {
     grid-area: theButton;
     align-self:flex-end;
   }
-
 </style>
 
 <!--

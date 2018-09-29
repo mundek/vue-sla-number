@@ -1,21 +1,20 @@
 <template>
-  <div class="quiz">
-    <div class="quiz-container">
-      <div class="ui left icon input">
-        <input type="number" style="min-width:40%;max-width:60%" placeholder="#?">
-        <i class="circular volume up icon"></i>
+    <div class="quiz quiz-container">
+      <div class="theInput">
+        <div class="ui left icon input">
+          <input type="number" placeholder="#?">
+          <i class="circular volume up icon"></i>
+        </div>
       </div>
-      <div style="justify-self:right;">
-        <p>75% correct</p>
+      <div class="theScore">
+        <h3>75% correct</h3>
         <p>9 out of 12 questions</p>
-        <p>20 questions total</p>
+        <em>20 questions total</em>
       </div>
-      <div>&nbsp;</div>
-      <div style="justify-self:end;align:left">
+      <div class="theButton" style="text-align:right;">
         <button class="ui button">Finish</button>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -26,10 +25,25 @@ export default {
 
 <style scoped>
   .quiz-container {
-    display:inline-grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(2, minmax(auto, 80%));
-    grid-gap: 20px;
-    align-items:center;
+    display:grid;
+    grid-template-areas:
+      "theInput theScore" 
+      "theInput theButton";
+    grid-template-columns: 40% 60%;
+    grid-template-rows: auto auto;
+  }
+  .theInput {
+    grid-area: theInput;
+  }
+  .theScore {
+    grid-area: theScore;
+  }
+  .theButton {
+    grid-area: theButton;
+    align-self: flex-end;
   }
 </style>
+
+<!-- 
+
+-->

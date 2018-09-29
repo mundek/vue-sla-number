@@ -8,12 +8,12 @@
         {{ quizResults[1] }}
       </h3>
     </div>
-    <div class="stats">
-      <p>75% correct</p>
+    <div class="theStats">
+      <h3>75% correct</h3>
       <p>9 out of 12 questions</p>
-      <p>20 questions total</p>
+      <em>20 questions total</em>
     </div>
-    <div class="restartBt" style="">
+    <div class="restartBt" style="text-align:right;">
       <button class="ui button">New Quiz</button>
     </div>
   </div>
@@ -35,18 +35,22 @@ export default {
     display:grid;
     grid-gap: 10px;
     grid-template-areas: 
-      "dispRes dispStats"
-      "dispRes dispRestart";
-    grid-template-columns: auto 35%;
+      "theResults theStats"
+      "theResults theButton";
+    grid-template-columns: auto auto;
     grid-template-rows: auto auto;
   }
   .theResults {
-    grid-area: dispRes;
+    grid-area: theResults;
   }
-  .stats {
-    grid-area: dispStats;
+  .theStats {
+    grid-area: theStats;
   }
-  .restartBt {
-    grid-area: dispRestart;
+  .theButton {
+    grid-area: theButton;
   }
 </style>
+
+<!-- 
+
+-->
