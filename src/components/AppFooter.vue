@@ -4,7 +4,7 @@
     <button class="ui basic button" @click="restartQuiz">(Re)start Quiz</button>
     <button class="ui basic button" @click="beginQuiz">Begin Quiz</button>
     <button class="ui basic button" @click="displayResults">Show Results</button>
-    <h3>store message: {{ theStoreMsg }}</h3>
+    <h3>store message: {{ theStoreMsg }} | {{ theRangeMin }} | {{ theRangeMax }} </h3>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'AppFooter',
   computed: {
-    ...mapGetters(['theStoreMsg'])
+    ...mapGetters(['theStoreMsg', 'theRangeMin', 'theRangeMax'])
   },
   methods: {  
     ...mapActions(['restartQuiz', 'beginQuiz', 'displayResults'])

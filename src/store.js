@@ -9,7 +9,11 @@ export default new Vuex.Store({
   state: {
     storeMsg: 'Store: Open',
     randNumArr: [23, 55, 77, 80, 12],
-    userAnswerArr: [23, 55, 67, 80, 2]
+    userAnswerArr: [23, 55, 67, 80, 2],
+    range: {
+      rangeMin: 0,
+      rangeMax: 21
+    }
   },
   mutations: {
     setStartState: () => {
@@ -20,7 +24,11 @@ export default new Vuex.Store({
     },
     setResultsState: () => {
       router.push('results')
-    }
+    },
+    updateRange: function (state, range) {
+      Object.assign(state.range, range);
+      console.log("updateRange");
+    } 
   },
   actions: {
     restartQuiz: ({commit}) => {
@@ -31,6 +39,12 @@ export default new Vuex.Store({
     },
     displayResults: ({commit})  => {
       commit('setResultsState');
+    },
+    updateRangeMin: ({commit}) => {
+      commit('setMinRange', commit.message);
+    },
+    updateRangeMax: ({commit}) => {
+      commit('setMaxRange', commit.message);
     }
   },
   getters: {
@@ -39,6 +53,12 @@ export default new Vuex.Store({
     },
     quizResults: (state) => {
       return [state.randNumArr, state.userAnswerArr];
+    },
+    theRangeMin: (state) => {
+      return state.range.rangeMin;
+    },
+    theRangeMax: (state) => {
+      return state.range.rangeMax;
     }
   }
 })

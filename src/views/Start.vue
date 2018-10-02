@@ -3,9 +3,9 @@
     <div class="theRangeHeader"><h3>Choose your range of numbers to practice:</h3></div>
     <div class="theRange" style="margin:1em 0em;">
       <h4 style="display:inline-block;margin:0;">from&nbsp;&nbsp;</h4>
-      <input type="number" style="width:4em" size=4 placeholder="0" />
+      <input type="number" style="width:4em" size=4 :value="range.rangeMin" v-on:change.stop="updateRange('rangeMin', $event.target.value)" />
       <h4 style="display:inline-block;margin:0;">&nbsp;to&nbsp;</h4>
-      <input type="number" style="width:10em" size=10 placeholder="999" />&nbsp;(max: 999,999,999)
+      <input type="number" style="width:10em" size=10 :value="range.rangeMax" v-on:keyup.stop="updateRange('rangeMax', $event.target.value)" />&nbsp;(max: 999,999,999)
     </div>
     <div class="theNumbersHeader"><h3>Choose how many randomly chosen numbers you want to try:</h3></div>
     <div class="theNumbers">
@@ -18,8 +18,26 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
-    name: 'Start'
+    name: 'Start',
+    data () {
+      return {
+        range: this.$store.state.range
+      };
+    },
+    computed: {
+      ...mapGetters(['theRangeMin', 'theRangeMax'])
+    },
+    methods: {
+      updateRange(field, value) {
+        this.$store.commit('updateRange', {
+          [field]: value
+        });
+      },
+      ...mapActions(['restartQuiz', 'beginQuiz', 'displayResults', 'updateRangeMax'])
+    }
 };
 </script>
 
