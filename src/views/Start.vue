@@ -3,13 +3,27 @@
     <div class="theRangeHeader"><h3>Choose your range of numbers to practice:</h3></div>
     <div class="theRange" style="margin:1em 0em;">
       <h4 style="display:inline-block;margin:0;">from&nbsp;&nbsp;</h4>
-      <input type="number" style="width:4em" size=4 :value="range.rangeMin" v-on:change.stop="updateRange('rangeMin', $event.target.value)" />
+      <input type="number" style="width:4em" size=4 
+        :value="theRangeMin" 
+        :class="{invalid:theRangeMin < 0 || theRangeMin > 99}" 
+        v-on:change="updateRange('rangeMin', $event.target.value)"
+      />
       <h4 style="display:inline-block;margin:0;">&nbsp;to&nbsp;</h4>
-      <input type="number" style="width:10em" size=10 :value="range.rangeMax" v-on:keyup.stop="updateRange('rangeMax', $event.target.value)" />&nbsp;(max: 999,999,999)
+      <input type="number" style="width:10em" size=10 
+        :value="theRangeMax" 
+        :class="{invalid:theRangeMax < 0 || theRangeMax > 99}" 
+        v-on:change="updateRange('rangeMax', $event.target.value)" 
+      />&nbsp;(max: {{theRangeMaxConst}})
     </div>
     <div class="theNumbersHeader"><h3>Choose how many randomly chosen numbers you want to try:</h3></div>
     <div class="theNumbers">
-      <div style="margin:1em 0;"><input type="number" size=4 maxlength="3" placeholder="20" style="width:3em;">&nbsp;(max: 20)</div>
+      <div style="margin:1em 0;">
+        <input type="number" style="width:3em;" size=4 maxlength="3" 
+        :value="theQuizLength" 
+        :class="{invalid:theQuizLength < 0 || theQuizLength > 20}" 
+        v-on:input="updateLength($event.target.value)"
+      >&nbsp;(max: {{theQuizLenConst}})
+      </div>
     </div>
     <div class="theButton" style="text-align:right;">
       <button class="ui button">Begin</button>
@@ -22,21 +36,25 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'Start',
-    data () {
-      return {
-        range: this.$store.state.range
-      };
-    },
     computed: {
-      ...mapGetters(['theRangeMin', 'theRangeMax'])
+      ...mapGetters([
+        'theRangeMin', 'theRangeMax', 'theQuizLength', 
+        'theRangeMinConst', 'theRangeMaxConst', 'theQuizLenConst'
+      ])
     },
     methods: {
       updateRange(field, value) {
-        this.$store.commit('updateRange', {
+        this.$store.dispatch('updateRange', {
           [field]: value
         });
       },
-      ...mapActions(['restartQuiz', 'beginQuiz', 'displayResults', 'updateRangeMax'])
+      updateLength(value) {
+        this.$store.dispatch('updateQuizLength', value);
+      },
+      ...mapActions(['restartQuiz', 'beginQuiz', 'displayResults'])
+    },
+    watch: {
+
     }
 };
 </script>
