@@ -5,13 +5,11 @@
       <h4 style="display:inline-block;margin:0;">from&nbsp;&nbsp;</h4>
       <input type="number" style="width:4em" size=4 
         :value="theRangeMin" 
-        :class="{invalid:theRangeMin < 0 || theRangeMin > 99}" 
         v-on:change="updateRange('rangeMin', $event.target.value)"
       />
       <h4 style="display:inline-block;margin:0;">&nbsp;to&nbsp;</h4>
       <input type="number" style="width:10em" size=10 
         :value="theRangeMax" 
-        :class="{invalid:theRangeMax < 0 || theRangeMax > 99}" 
         v-on:change="updateRange('rangeMax', $event.target.value)" 
       />&nbsp;(max: {{theRangeMaxConst}})
     </div>
@@ -20,13 +18,12 @@
       <div style="margin:1em 0;">
         <input type="number" style="width:3em;" size=4 maxlength="3" 
         :value="theQuizLength" 
-        :class="{invalid:theQuizLength < 0 || theQuizLength > 20}" 
-        v-on:input="updateLength($event.target.value)"
+        v-on:change="updateLength($event.target.value)"
       >&nbsp;(max: {{theQuizLenConst}})
       </div>
     </div>
     <div class="theButton" style="text-align:right;">
-      <button class="ui button">Begin</button>
+      <button class="ui button" @click="beginQuiz">Begin</button>
     </div>
   </div>
 </template>

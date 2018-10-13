@@ -11,18 +11,38 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    storeMsg: 'Store: Open',
-    randNumArr: [23, 55, 77, 80, 12],
-    userAnswerArr: [23, 55, 67, 80, 2],
     range: {
       rangeMin: RANGE_MIN,
       rangeMax: RANGE_MAX
     },
-    quizLength: QUIZ_LEN
+    quizLength: QUIZ_LEN,
+    storeMsg: 'Store: Open',
+    randNumArr: [],
+    userAnswerArr: []
   },
   mutations: {
     setStartState: () => {
       router.push('/');
+    },
+    setNumberList: (state) => {
+      state.randNumArr = [];
+      let theRange = (state.range.rangeMax - state.range.rangeMin) + 1;
+      const duplicatesAllowed = (theRange < state.quizLength);
+      console.log("need to allow duplicates? " + duplicatesAllowed);
+      console.log("state.randNumArr.length: " + state.randNumArr.length + "; state.quizLength: " + state.quizLength);
+      console.log((state.randNumArr.length < Number(state.quizLength)));
+      while(state.randNumArr.length < Number(state.quizLength)){
+        let aRandNum = Math.floor(
+          (Math.random() * (theRange)) +
+          state.range.rangeMin
+        );
+        if((state.randNumArr.indexOf(aRandNum) !== -1) && !duplicatesAllowed) {
+          console.log("duplicatesAllowed: " + duplicatesAllowed);
+          continue;
+        }
+        state.randNumArr[state.randNumArr.length] = aRandNum;
+        console.log('aRandNum, #' + state.randNumArr.length + ': ' + aRandNum);
+      }
     },
     setQuizState: () => {
       router.push('quiz');
@@ -31,16 +51,13 @@ export default new Vuex.Store({
       router.push('results')
     },
     setRange: function(state, payload) {
-      // console.log("setRange");
-      // console.log("state: " + state.toString() + "; range: " + payload);
-      // console.log("payload: " + JSON.stringify(payload));
-      if(payload.rangeMin) {
-//        state.range.rangeMin = payload.rangeMin;
-        let newMin = parseInt(payload.rangeMin);
-        let currMax = parseInt(state.range.rangeMax);
+      let newMin = parseInt(payload.rangeMin);
+      let newMax = parseInt(payload.rangeMax);
+      let currMin = parseInt(state.range.rangeMin);
+      let currMax = parseInt(state.range.rangeMax); 
 
+      if(newMin) {
         if (newMin >= currMax) {
-          // console.log("newMin: " + newMin + "; currMax: " + currMax)
           state.range.rangeMin = RANGE_MIN;
         } else if (newMin < RANGE_MIN) {
           state.range.rangeMin = currMax - 1  ;
@@ -49,13 +66,8 @@ export default new Vuex.Store({
         } else {
           state.range.rangeMin = newMin;
         }
-      } else if(payload.rangeMax) {
-        // state.range.rangeMax = payload.rangeMax;
-        let newMax = parseInt(payload.rangeMax);
-        let currMin = parseInt(state.range.rangeMin);
-
+      } else if(newMax) {
         if (newMax <= currMin) {
-          // console.log("newMax: " + newMax + "; currMin: " + currMin)
           state.range.rangeMax = RANGE_MAX;
         } else if (newMax > RANGE_MAX) {
           state.range.rangeMax = currMin + 1;
@@ -65,6 +77,13 @@ export default new Vuex.Store({
           state.range.rangeMax = newMax;
         }
       }
+      // let currRange =  (parseInt(state.range.rangeMax) - parseInt(state.range.rangeMin));
+      // console.log("currRange: " + currRange + "; state.quizLength:" + state.quizLength);
+      // if(currRange < parseInt(state.quizLength)){
+      //   console.log("currRange < state.quizLength; (state.range.rangeMin + state.quizLength)=" + (parseInt(state.range.rangeMin) + parseInt(state.quizLength)));
+      //   state.range.RangeMax = (parseInt(state.range.rangeMin) + currRange);
+      //   console.log("state.range.RangeMax = " + state.range.RangeMax);
+      // }
     },
     setQuizLength: function(state, payload) {
       if (payload <= 0) {
@@ -81,6 +100,7 @@ export default new Vuex.Store({
       commit('setStartState');
     },
     beginQuiz: ({commit}) => {
+      commit('setNumberList');
       commit('setQuizState');
     },
     displayResults: ({commit})  => {
@@ -109,13 +129,13 @@ export default new Vuex.Store({
     theQuizLength: (state) => {
       return state.quizLength;
     },
-    theRangeMinConst: (state) => {
+    theRangeMinConst: () => {
       return RANGE_MIN;
     },
-    theRangeMaxConst: (state) => {
+    theRangeMaxConst: () => {
       return RANGE_MAX;
     },
-    theQuizLenConst: (state) => {
+    theQuizLenConst: () => {
       return QUIZ_LEN;
     }
   }
