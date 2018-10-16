@@ -48,11 +48,8 @@ export default {
       updateLength(value) {
         this.$store.dispatch('updateQuizLength', value);
       },
-      ...mapActions(['restartQuiz', 'beginQuiz', 'displayResults'])
+      ...mapActions(['restartQuiz', 'beginQuiz'])
     },
-    watch: {
-
-    }
 };
 </script>
 

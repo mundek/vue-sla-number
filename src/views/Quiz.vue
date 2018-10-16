@@ -3,13 +3,13 @@
       <div class="theInput">
         <div class="ui left icon input">
           <input type="number" placeholder="#?">
-          <i class="circular volume up icon"></i>
+          <i class="circular volume up link icon" @click="playNumber"></i>
         </div>
       </div>
       <div class="theScore">
         <h3>75% correct</h3>
-        <p>9 out of 12 questions</p>
-        <em>20 questions total</em>
+        <p>{{ correctCounter }} correct out of {{ quizCounter }} questions</p>
+        <em>{{ theQuizLength }} questions total</em>
       </div>
       <div class="theButton" style="text-align:right;">
         <button class="ui button">Finish</button>
@@ -18,8 +18,31 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
-    name: 'Quiz'
+    name: 'Quiz',
+    data: function() {
+      return {
+        quizCounter: 0,
+        correctCounter: 0
+      };
+    },
+    computed: {
+      ...mapGetters([
+        'theQuizLength'
+      ])
+    },
+
+    methods: {
+      playNumber() {
+        console.log('playNumber()');
+      },
+      ...mapActions(['restartQuiz', 'displayResults'])
+    },
+    created: function() {
+      console.log('Quiz.vue created');
+    }
 };
 </script>
 

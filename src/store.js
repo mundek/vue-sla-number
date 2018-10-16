@@ -26,18 +26,20 @@ export default new Vuex.Store({
     },
     setNumberList: (state) => {
       state.randNumArr = [];
+      state.userAnswerArr = [];
+
       let theRange = (state.range.rangeMax - state.range.rangeMin) + 1;
       const duplicatesAllowed = (theRange < state.quizLength);
-      console.log("need to allow duplicates? " + duplicatesAllowed);
-      console.log("state.randNumArr.length: " + state.randNumArr.length + "; state.quizLength: " + state.quizLength);
-      console.log((state.randNumArr.length < Number(state.quizLength)));
+      // console.log("need to allow duplicates? " + duplicatesAllowed);
+      // console.log("state.randNumArr.length: " + state.randNumArr.length + "; state.quizLength: " + state.quizLength);
+      // console.log((state.randNumArr.length < Number(state.quizLength)));
       while(state.randNumArr.length < Number(state.quizLength)){
         let aRandNum = Math.floor(
           (Math.random() * (theRange)) +
           state.range.rangeMin
         );
         if((state.randNumArr.indexOf(aRandNum) !== -1) && !duplicatesAllowed) {
-          console.log("duplicatesAllowed: " + duplicatesAllowed);
+          // console.log("duplicatesAllowed: " + duplicatesAllowed);
           continue;
         }
         state.randNumArr[state.randNumArr.length] = aRandNum;
@@ -100,8 +102,8 @@ export default new Vuex.Store({
       commit('setStartState');
     },
     beginQuiz: ({commit}) => {
-      commit('setNumberList');
       commit('setQuizState');
+      commit('setNumberList');
     },
     displayResults: ({commit})  => {
       commit('setResultsState');
