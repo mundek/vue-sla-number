@@ -7,8 +7,8 @@
         </div>
       </div>
       <div class="theScore">
-        <h3>75% correct</h3>
-        <p>{{ correctCounter }} correct out of {{ quizCounter }} questions</p>
+        <h3>{{ currentPercentage }}% correct</h3>
+        <p>{{ correctCounter }} correct out of {{ questionCounter }} questions</p>
         <em>{{ theQuizLength }} questions total</em>
       </div>
       <div class="theButton" style="text-align:right;">
@@ -24,19 +24,27 @@ export default {
     name: 'Quiz',
     data: function() {
       return {
-        quizCounter: 0,
+        questionCounter: 0,
         correctCounter: 0
       };
     },
     computed: {
+      currentPercentage: function() {
+        if (this.questionCounter == 0) {
+          return 0;
+        } else {
+          return this.correctCounter / this.questionCounter;
+        }
+      },
       ...mapGetters([
-        'theQuizLength'
+        'theQuizLength', 'theNumberList'
       ])
     },
 
     methods: {
       playNumber() {
-        console.log('playNumber()');
+        let aNumber = this.$store.state.randNumArr[this.questionCounter];
+        window.responsiveVoice.speak(String(aNumber), 'Spanish Latin American Female');
       },
       ...mapActions(['restartQuiz', 'displayResults'])
     },

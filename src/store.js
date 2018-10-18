@@ -139,6 +139,9 @@ export default new Vuex.Store({
     },
     theQuizLenConst: () => {
       return QUIZ_LEN;
+    },
+    theNumberList: (state) => {
+      return state.randNumArr;
     }
   }
 })
