@@ -16,7 +16,7 @@
     <div class="theNumbersHeader"><h3>Choose how many randomly chosen numbers you want to try:</h3></div>
     <div class="theNumbers">
       <div style="margin:1em 0;">
-        <input type="number" style="width:3em;" size=4 maxlength="3" 
+        <input type="number" style="width:3em;" size=4 maxlength=3 
         :value="theQuizLength" 
         v-on:change="updateLength($event.target.value)"
       >&nbsp;(max: {{theQuizLenConst}})

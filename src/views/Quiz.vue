@@ -2,13 +2,19 @@
     <div class="quiz quiz-container">
       <div class="theInput">
         <div class="ui left icon input">
-          <input type="number" placeholder="#?">
+          <input id="userNumber" type="number" style="width:8em" size=4 autofocus 
+            placeholder="#?"
+            :value="theCurrentAnswer" 
+            @change="updateUserResponse($event.target.value)"
+            @keyup.enter="checkResponse"
+          >
           <i class="circular volume up link icon" @click="playNumber"></i>
         </div>
+        <button class="ui button" @click="checkResponse">Check</button>
       </div>
       <div class="theScore">
         <h3>{{ currentPercentage }}% correct</h3>
-        <p>{{ correctCounter }} correct out of {{ questionCounter }} questions</p>
+        <p>{{ correctCounter }} correct out of {{ theQuestionIndex }} questions answered</p>
         <em>{{ theQuizLength }} questions total</em>
       </div>
       <div class="theButton" style="text-align:right;">
@@ -24,33 +30,46 @@ export default {
     name: 'Quiz',
     data: function() {
       return {
-        questionCounter: 0,
         correctCounter: 0
       };
     },
+    created: function() {
+      // console.log('Quiz.vue created');
+      // play the first number in randNumArr as soon as quiz begins
+      this.playNumber();
+    },
     computed: {
       currentPercentage: function() {
-        if (this.questionCounter == 0) {
+        let questIdx = this.$store.state.quizQuestionIndex;
+        let currCorrect = this.$store.state.totalCorrect;
+        console.log(questIdx);
+        if (questIdx <= 0) {
           return 0;
         } else {
-          return this.correctCounter / this.questionCounter;
+          return  currCorrect / questIdx;
         }
       },
       ...mapGetters([
-        'theQuizLength', 'theNumberList'
+        'theQuizLength', 'theNumberList', 'theQuestionIndex', 'theCurrentAnswer'
       ])
     },
-
     methods: {
       playNumber() {
-        let aNumber = this.$store.state.randNumArr[this.questionCounter];
+        let aNumber = this.$store.state.randNumArr[this.$store.state.quizQuestionIndex];
         window.responsiveVoice.speak(String(aNumber), 'Spanish Latin American Female');
+      },
+      updateUserResponse(value) {
+        this.$store.dispatch('updateCurrResponse', value);
+      },
+      checkResponse(value) {
+        var str = document.getElementById("userNumber").value;
+        // console.log("str: " + str + " | !str: " + (!str) + " | str.length: " + str.length);
+        if(str.length) {
+          this.$store.dispatch('updateUserAnswerArr', value);
+        }
       },
       ...mapActions(['restartQuiz', 'displayResults'])
     },
-    created: function() {
-      console.log('Quiz.vue created');
-    }
 };
 </script>
 

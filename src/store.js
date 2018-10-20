@@ -18,7 +18,10 @@ export default new Vuex.Store({
     quizLength: QUIZ_LEN,
     storeMsg: 'Store: Open',
     randNumArr: [],
-    userAnswerArr: []
+    userAnswerArr: [],
+    currentUserAnswer: 0,
+    quizQuestionIndex: 0,
+    totalCorrect: 0
   },
   mutations: {
     setStartState: () => {
@@ -33,7 +36,8 @@ export default new Vuex.Store({
       // console.log("need to allow duplicates? " + duplicatesAllowed);
       // console.log("state.randNumArr.length: " + state.randNumArr.length + "; state.quizLength: " + state.quizLength);
       // console.log((state.randNumArr.length < Number(state.quizLength)));
-      while(state.randNumArr.length < Number(state.quizLength)){
+      var listItems = 0;
+      while(listItems < Number(state.quizLength)){
         let aRandNum = Math.floor(
           (Math.random() * (theRange)) +
           state.range.rangeMin
@@ -42,9 +46,10 @@ export default new Vuex.Store({
           // console.log("duplicatesAllowed: " + duplicatesAllowed);
           continue;
         }
-        state.randNumArr[state.randNumArr.length] = aRandNum;
-        console.log('aRandNum, #' + state.randNumArr.length + ': ' + aRandNum);
+        Vue.set(state.randNumArr, listItems++, aRandNum);
+        // console.log('aRandNum, #' + listItems + ': ' + aRandNum);
       }
+      console.log(state.randNumArr);
     },
     setQuizState: () => {
       router.push('quiz');
@@ -95,6 +100,28 @@ export default new Vuex.Store({
       } else {
         state.quizLength = payload;
       }
+    },
+    setCurrentResponse: function(state, payload) {
+      payload = Number(payload);
+      if (payload <= RANGE_MIN) {
+        state.currentUserAnswer = RANGE_MIN;
+      } else if (payload >= RANGE_MAX) {
+        state.currentUserAnswer = RANGE_MAX;
+      } else {
+        state.currentUserAnswer = payload;
+      }
+      // console.log(
+      //   "payload: " + payload +
+      //   " ; state.currentUserAnswer: " + state.currentUserAnswer
+      // );
+    },
+    pushUserResponse: function(state, payload) {
+      Vue.set(state.userAnswerArr, state.quizQuestionIndex, payload);
+      state.currentUserAnswer = '';
+      state.quizQuestionIndex++;
+      console.log(
+        "userAnswerArr: " + state.userAnswerArr, state.currentUserAnswer
+      );
     }
   },
   actions: {
@@ -113,6 +140,12 @@ export default new Vuex.Store({
     },
     updateQuizLength: (context, payload) => {
       context.commit('setQuizLength', payload);
+    },
+    updateCurrResponse: (context, payload) => {
+      context.commit('setCurrentResponse', payload);
+    },
+    updateUserAnswerArr: (context) => {
+      context.commit('pushUserResponse', context.state.currentUserAnswer);
     }
   },
   getters: {
@@ -142,6 +175,12 @@ export default new Vuex.Store({
     },
     theNumberList: (state) => {
       return state.randNumArr;
+    },
+    theQuestionIndex: (state) => {
+      return state.quizQuestionIndex;
+    },
+    theCurrentAnswer: (state) => {
+      return state.currentUserAnswer;
     }
   }
 })
