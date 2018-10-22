@@ -2,7 +2,8 @@
     <div class="quiz quiz-container">
       <div class="theInput">
         <div class="ui left icon input">
-          <input id="userNumber" type="number" style="width:8em" size=4 autofocus 
+          <input id="userNumber" type="number" 
+            style="width:8em" size=4 autofocus 
             placeholder="#?"
             :value="theCurrentAnswer" 
             @change="updateUserResponse($event.target.value)"
@@ -14,7 +15,7 @@
       </div>
       <div class="theScore">
         <h3>{{ currentPercentage }}% correct</h3>
-        <p>{{ correctCounter }} correct out of {{ theQuestionIndex }} questions answered</p>
+        <p>{{ currentCorrect }} correct out of {{ theQuestionIndex }} questions answered</p>
         <em>{{ theQuizLength }} questions total</em>
       </div>
       <div class="theButton" style="text-align:right;">
@@ -28,11 +29,6 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'Quiz',
-    data: function() {
-      return {
-        correctCounter: 0
-      };
-    },
     created: function() {
       // console.log('Quiz.vue created');
       // play the first number in randNumArr as soon as quiz begins
@@ -46,11 +42,14 @@ export default {
         if (questIdx <= 0) {
           return 0;
         } else {
-          return  currCorrect / questIdx;
+          return Math.ceil((currCorrect / questIdx) * 100);
         }
       },
+      currentCorrect: function() {
+        return this.$store.state.totalCorrect;
+      },
       ...mapGetters([
-        'theQuizLength', 'theNumberList', 'theQuestionIndex', 'theCurrentAnswer'
+        'theQuizLength', 'theQuestionIndex', 'theCurrentAnswer'
       ])
     },
     methods: {
@@ -66,6 +65,11 @@ export default {
         // console.log("str: " + str + " | !str: " + (!str) + " | str.length: " + str.length);
         if(str.length) {
           this.$store.dispatch('updateUserAnswerArr', value);
+          if(this.$store.state.quizQuestionIndex < this.$store.state.randNumArr.length) {
+            this.playNumber();
+          }
+        } else {
+          this.playNumber();
         }
       },
       ...mapActions(['restartQuiz', 'displayResults'])

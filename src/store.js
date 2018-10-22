@@ -23,13 +23,23 @@ export default new Vuex.Store({
     quizQuestionIndex: 0,
     totalCorrect: 0
   },
+  // ######################
+  // MUTATIONS
+  // ######################
   mutations: {
     setStartState: () => {
       router.push('/');
     },
+    setQuizState: () => {
+      router.push('quiz');
+    },
+    setResultsState: () => {
+      router.push('results')
+    },
     setNumberList: (state) => {
       state.randNumArr = [];
       state.userAnswerArr = [];
+      state.totalCorrect = 0;
 
       let theRange = (state.range.rangeMax - state.range.rangeMin) + 1;
       const duplicatesAllowed = (theRange < state.quizLength);
@@ -50,12 +60,6 @@ export default new Vuex.Store({
         // console.log('aRandNum, #' + listItems + ': ' + aRandNum);
       }
       console.log(state.randNumArr);
-    },
-    setQuizState: () => {
-      router.push('quiz');
-    },
-    setResultsState: () => {
-      router.push('results')
     },
     setRange: function(state, payload) {
       let newMin = parseInt(payload.rangeMin);
@@ -84,13 +88,6 @@ export default new Vuex.Store({
           state.range.rangeMax = newMax;
         }
       }
-      // let currRange =  (parseInt(state.range.rangeMax) - parseInt(state.range.rangeMin));
-      // console.log("currRange: " + currRange + "; state.quizLength:" + state.quizLength);
-      // if(currRange < parseInt(state.quizLength)){
-      //   console.log("currRange < state.quizLength; (state.range.rangeMin + state.quizLength)=" + (parseInt(state.range.rangeMin) + parseInt(state.quizLength)));
-      //   state.range.RangeMax = (parseInt(state.range.rangeMin) + currRange);
-      //   console.log("state.range.RangeMax = " + state.range.RangeMax);
-      // }
     },
     setQuizLength: function(state, payload) {
       if (payload <= 0) {
@@ -117,6 +114,10 @@ export default new Vuex.Store({
     },
     pushUserResponse: function(state, payload) {
       Vue.set(state.userAnswerArr, state.quizQuestionIndex, payload);
+      if(state.userAnswerArr[state.quizQuestionIndex] == state.randNumArr[state.quizQuestionIndex]) {
+        state.totalCorrect++;
+        console.log("state.totalCorrect: " + state.totalCorrect);
+      }
       state.currentUserAnswer = '';
       state.quizQuestionIndex++;
       console.log(
@@ -124,6 +125,9 @@ export default new Vuex.Store({
       );
     }
   },
+  // ######################
+  // ACTIONS
+  // ######################
   actions: {
     restartQuiz: ({commit}) => {
       commit('setStartState');
@@ -148,6 +152,9 @@ export default new Vuex.Store({
       context.commit('pushUserResponse', context.state.currentUserAnswer);
     }
   },
+  // ######################
+  // GETTERS
+  // ######################
   getters: {
     theStoreMsg: (state) => {
       return state.storeMsg;
