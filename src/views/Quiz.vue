@@ -14,8 +14,8 @@
         <button class="ui button" @click="checkResponse">Check</button>
       </div>
       <div class="theScore">
-        <h3>{{ currentPercentage }}% correct</h3>
-        <p>{{ currentCorrect }} correct out of {{ theQuestionIndex }} questions answered</p>
+        <h3>{{ theCurrentPercentage }}% correct</h3>
+        <p>{{ theCorrectCount }} correct out of {{ theQuestionIndex }} questions answered</p>
         <em>{{ theQuizLength }} questions total</em>
       </div>
       <div class="theButton" style="text-align:right;">
@@ -35,27 +35,16 @@ export default {
       this.playNumber();
     },
     computed: {
-      currentPercentage: function() {
-        let questIdx = this.$store.state.quizQuestionIndex;
-        let currCorrect = this.$store.state.totalCorrect;
-        console.log(questIdx);
-        if (questIdx <= 0) {
-          return 0;
-        } else {
-          return Math.ceil((currCorrect / questIdx) * 100);
-        }
-      },
-      currentCorrect: function() {
-        return this.$store.state.totalCorrect;
-      },
       ...mapGetters([
-        'theQuizLength', 'theQuestionIndex', 'theCurrentAnswer'
+        'theQuizLength', 'theQuestionIndex', 'theCurrentAnswer', 'theCurrentPercentage', 'theCorrectCount'
       ])
     },
     methods: {
       playNumber() {
         let aNumber = this.$store.state.randNumArr[this.$store.state.quizQuestionIndex];
-        window.responsiveVoice.speak(String(aNumber), 'Spanish Latin American Female');
+        if (aNumber) {
+          window.responsiveVoice.speak(String(aNumber), 'Spanish Latin American Female');
+        }
       },
       updateUserResponse(value) {
         this.$store.dispatch('updateCurrResponse', value);

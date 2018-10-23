@@ -10,6 +10,11 @@ const QUIZ_LEN = 20;
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  // ######################
+  // ######################
+  // STATE
+  // ######################
+  // ######################
   state: {
     range: {
       rangeMin: RANGE_MIN,
@@ -24,9 +29,23 @@ export default new Vuex.Store({
     totalCorrect: 0
   },
   // ######################
+  // ######################
   // MUTATIONS
   // ######################
+  // ######################
   mutations: {
+    resetState: (state) => {
+      state.range.rangeMin = RANGE_MIN;
+      state.range.rangeMax = RANGE_MAX;
+      state.quizLength = QUIZ_LEN;
+      state.storeMsg = 'Store: Reset';
+      state.randNumArr = [];
+      state.userAnswerArr = [];
+      state.currentUserAnswer = 0;
+      state.quizQuestionIndex = 0;
+      state.totalCorrect = 0;
+      console.log('State reset.');
+    },
     setStartState: () => {
       router.push('/');
     },
@@ -37,15 +56,8 @@ export default new Vuex.Store({
       router.push('results')
     },
     setNumberList: (state) => {
-      state.randNumArr = [];
-      state.userAnswerArr = [];
-      state.totalCorrect = 0;
-
       let theRange = (state.range.rangeMax - state.range.rangeMin) + 1;
       const duplicatesAllowed = (theRange < state.quizLength);
-      // console.log("need to allow duplicates? " + duplicatesAllowed);
-      // console.log("state.randNumArr.length: " + state.randNumArr.length + "; state.quizLength: " + state.quizLength);
-      // console.log((state.randNumArr.length < Number(state.quizLength)));
       var listItems = 0;
       while(listItems < Number(state.quizLength)){
         let aRandNum = Math.floor(
@@ -53,11 +65,9 @@ export default new Vuex.Store({
           state.range.rangeMin
         );
         if((state.randNumArr.indexOf(aRandNum) !== -1) && !duplicatesAllowed) {
-          // console.log("duplicatesAllowed: " + duplicatesAllowed);
           continue;
         }
         Vue.set(state.randNumArr, listItems++, aRandNum);
-        // console.log('aRandNum, #' + listItems + ': ' + aRandNum);
       }
       console.log(state.randNumArr);
     },
@@ -107,29 +117,32 @@ export default new Vuex.Store({
       } else {
         state.currentUserAnswer = payload;
       }
-      // console.log(
-      //   "payload: " + payload +
-      //   " ; state.currentUserAnswer: " + state.currentUserAnswer
-      // );
     },
     pushUserResponse: function(state, payload) {
       Vue.set(state.userAnswerArr, state.quizQuestionIndex, payload);
       if(state.userAnswerArr[state.quizQuestionIndex] == state.randNumArr[state.quizQuestionIndex]) {
         state.totalCorrect++;
-        console.log("state.totalCorrect: " + state.totalCorrect);
+        // console.log("state.totalCorrect: " + state.totalCorrect);
       }
       state.currentUserAnswer = '';
-      state.quizQuestionIndex++;
-      console.log(
-        "userAnswerArr: " + state.userAnswerArr, state.currentUserAnswer
-      );
+
+      // console.log(
+      //   "userAnswerArr: " + state.userAnswerArr, state.currentUserAnswer
+      // );
+
+      if(state.randNumArr.length <= ++state.quizQuestionIndex) {
+        router.push('results');
+      }
     }
   },
   // ######################
+  // ######################
   // ACTIONS
+  // ######################
   // ######################
   actions: {
     restartQuiz: ({commit}) => {
+      commit('resetState');
       commit('setStartState');
     },
     beginQuiz: ({commit}) => {
@@ -153,7 +166,9 @@ export default new Vuex.Store({
     }
   },
   // ######################
+  // ######################
   // GETTERS
+  // ######################
   // ######################
   getters: {
     theStoreMsg: (state) => {
@@ -188,6 +203,16 @@ export default new Vuex.Store({
     },
     theCurrentAnswer: (state) => {
       return state.currentUserAnswer;
+    },
+    theCurrentPercentage: (state) => {
+      if(state.quizQuestionIndex) {
+        return Math.ceil((state.totalCorrect / state.quizQuestionIndex) * 100);
+      } else {
+        return 0;
+      }
+    },
+    theCorrectCount: (state) => {
+      return state.totalCorrect;
     }
   }
 })
