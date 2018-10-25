@@ -24,7 +24,7 @@ export default new Vuex.Store({
     storeMsg: 'Store: Open',
     randNumArr: [],
     userAnswerArr: [],
-    currentUserAnswer: 0,
+    currentUserAnswer: '',
     quizQuestionIndex: 0,
     totalCorrect: 0
   },
@@ -41,7 +41,7 @@ export default new Vuex.Store({
       state.storeMsg = 'Store: Reset';
       state.randNumArr = [];
       state.userAnswerArr = [];
-      state.currentUserAnswer = 0;
+      state.currentUserAnswer = '';
       state.quizQuestionIndex = 0;
       state.totalCorrect = 0;
       console.log('State reset.');
@@ -129,7 +129,6 @@ export default new Vuex.Store({
       // console.log(
       //   "userAnswerArr: " + state.userAnswerArr, state.currentUserAnswer
       // );
-
       if(state.randNumArr.length <= ++state.quizQuestionIndex) {
         router.push('results');
       }
@@ -149,8 +148,13 @@ export default new Vuex.Store({
       commit('setQuizState');
       commit('setNumberList');
     },
-    displayResults: ({commit})  => {
-      commit('setResultsState');
+    displayResults: (context)  => {
+      // ** TEMP CODE **
+      // populate
+      // context.state.randNumArr = [12, 312, 541, 49, 731, 229, 617, 49, 469, 505, 40, 312, 541, 49, 731, 229, 617, 49, 469, 505];
+      // context.state.userAnswerArr = [12, 212, 551, 49, 731, 229, 617, 49, 469, 515, 14, 212, 551, 49, 731, 229, 617, 49, 469, 515];
+      // ** END TEMP CODE **
+      context.commit('setResultsState');
     },
     updateRange: (context, payload) => {
       context.commit('setRange', payload);
@@ -174,9 +178,9 @@ export default new Vuex.Store({
     theStoreMsg: (state) => {
       return state.storeMsg;
     },
-    quizResults: (state) => {
-      return [state.randNumArr, state.userAnswerArr];
-    },
+    // quizResults: (state) => {
+    //   return [state.randNumArr, state.userAnswerArr];
+    // },
     theRangeMin: (state) => {
       return state.range.rangeMin;
     },
@@ -213,6 +217,12 @@ export default new Vuex.Store({
     },
     theCorrectCount: (state) => {
       return state.totalCorrect;
+    },
+    theRandNumbers: (state) => {
+      return state.randNumArr;
+    },
+    theUserResponses: (state) => {
+      return state.userAnswerArr;
     }
   }
 })

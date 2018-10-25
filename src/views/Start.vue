@@ -29,55 +29,59 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-    name: 'Start',
-    computed: {
-      ...mapGetters([
-        'theRangeMin', 'theRangeMax', 'theQuizLength', 
-        'theRangeMinConst', 'theRangeMaxConst', 'theQuizLenConst'
-      ])
+  name: "Start",
+  computed: {
+    ...mapGetters([
+      "theRangeMin",
+      "theRangeMax",
+      "theQuizLength",
+      "theRangeMinConst",
+      "theRangeMaxConst",
+      "theQuizLenConst"
+    ])
+  },
+  methods: {
+    updateRange(field, value) {
+      this.$store.dispatch("updateRange", {
+        [field]: value
+      });
     },
-    methods: {
-      updateRange(field, value) {
-        this.$store.dispatch('updateRange', {
-          [field]: value
-        });
-      },
-      updateLength(value) {
-        this.$store.dispatch('updateQuizLength', value);
-      },
-      ...mapActions(['restartQuiz', 'beginQuiz'])
+    updateLength(value) {
+      this.$store.dispatch("updateQuizLength", value);
     },
+    ...mapActions(["restartQuiz", "beginQuiz"])
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .start-container {
-    display:grid;
-    grid-template-areas:
-      "theRangeHeader" 
-      "theRange"
-      "theNumbersHeader"
-      "theNumbers"
-      "theButton";
-    grid-template-columns: 100%;
-    grid-template-rows: auto auto auto;
-  }
-  .theRange {
-    grid-area: theRange;
-    grid-template-rows: 1fr 1fr;
-  }
-  .theNumbers {
-    grid-area: theNumbers;
-    grid-template-rows: 1fr 1fr;
-  }
-  .theButton {
-    grid-area: theButton;
-    align-self:flex-end;
-  }
+.start-container {
+  display: grid;
+  grid-template-areas:
+    "theRangeHeader"
+    "theRange"
+    "theNumbersHeader"
+    "theNumbers"
+    "theButton";
+  grid-template-columns: 100%;
+  grid-template-rows: auto auto auto;
+}
+.theRange {
+  grid-area: theRange;
+  grid-template-rows: 1fr 1fr;
+}
+.theNumbers {
+  grid-area: theNumbers;
+  grid-template-rows: 1fr 1fr;
+}
+.theButton {
+  grid-area: theButton;
+  align-self: flex-end;
+}
 </style>
 
 <!--

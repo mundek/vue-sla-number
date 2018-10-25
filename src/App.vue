@@ -9,22 +9,22 @@
 </template>
 
 <script>
-import AppHeader from './components/AppHeader';
-import AppFooter from './components/AppFooter'
+import AppHeader from "./components/AppHeader";
+import AppFooter from "./components/AppFooter";
 
 export default {
-    name: 'App',
-    components: {
-        AppHeader,
-        AppFooter
-    }
+  name: "App",
+  components: {
+    AppHeader,
+    AppFooter
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-  .the-app-container {
-    display: inline-grid;
-    grid-template-rows: auto auto auto;
-  }
+<style scoped>
+.the-app-container {
+  display: inline-grid;
+  grid-template-rows: auto auto auto;
+}
 </style>

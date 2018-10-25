@@ -25,66 +25,78 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-    name: 'Quiz',
-    created: function() {
-      // console.log('Quiz.vue created');
-      // play the first number in randNumArr as soon as quiz begins
-      this.playNumber();
+  name: "Quiz",
+  created: function() {
+    // console.log('Quiz.vue created');
+    // play the first number in randNumArr as soon as quiz begins
+    this.playNumber();
+  },
+  computed: {
+    ...mapGetters([
+      "theQuizLength",
+      "theQuestionIndex",
+      "theCurrentAnswer",
+      "theCurrentPercentage",
+      "theCorrectCount"
+    ])
+  },
+  methods: {
+    playNumber() {
+      let aNumber = this.$store.state.randNumArr[
+        this.$store.state.quizQuestionIndex
+      ];
+      if (aNumber) {
+        window.responsiveVoice.speak(
+          String(aNumber),
+          "Spanish Latin American Female"
+        );
+      }
     },
-    computed: {
-      ...mapGetters([
-        'theQuizLength', 'theQuestionIndex', 'theCurrentAnswer', 'theCurrentPercentage', 'theCorrectCount'
-      ])
+    updateUserResponse(value) {
+      this.$store.dispatch("updateCurrResponse", value);
     },
-    methods: {
-      playNumber() {
-        let aNumber = this.$store.state.randNumArr[this.$store.state.quizQuestionIndex];
-        if (aNumber) {
-          window.responsiveVoice.speak(String(aNumber), 'Spanish Latin American Female');
-        }
-      },
-      updateUserResponse(value) {
-        this.$store.dispatch('updateCurrResponse', value);
-      },
-      checkResponse(value) {
-        var str = document.getElementById("userNumber").value;
-        // console.log("str: " + str + " | !str: " + (!str) + " | str.length: " + str.length);
-        if(str.length) {
-          this.$store.dispatch('updateUserAnswerArr', value);
-          if(this.$store.state.quizQuestionIndex < this.$store.state.randNumArr.length) {
-            this.playNumber();
-          }
-        } else {
+    checkResponse(value) {
+      var str = document.getElementById("userNumber").value;
+      // console.log("str: " + str + " | !str: " + (!str) + " | str.length: " + str.length);
+      if (str.length) {
+        this.$store.dispatch("updateUserAnswerArr", value);
+        if (
+          this.$store.state.quizQuestionIndex <
+          this.$store.state.randNumArr.length
+        ) {
           this.playNumber();
         }
-      },
-      ...mapActions(['restartQuiz', 'displayResults'])
+      } else {
+        this.playNumber();
+      }
     },
+    ...mapActions(["restartQuiz", "displayResults"])
+  }
 };
 </script>
 
 <style scoped>
-  .quiz-container {
-    display:grid;
-    grid-template-areas:
-      "theInput theScore" 
-      "theInput theButton";
-    grid-template-columns: 40% 60%;
-    grid-template-rows: auto auto;
-  }
-  .theInput {
-    grid-area: theInput;
-  }
-  .theScore {
-    grid-area: theScore;
-  }
-  .theButton {
-    grid-area: theButton;
-    align-self: flex-end;
-  }
+.quiz-container {
+  display: grid;
+  grid-template-areas:
+    "theInput theScore"
+    "theInput theButton";
+  grid-template-columns: 40% 60%;
+  grid-template-rows: auto auto;
+}
+.theInput {
+  grid-area: theInput;
+}
+.theScore {
+  grid-area: theScore;
+}
+.theButton {
+  grid-area: theButton;
+  align-self: flex-end;
+}
 </style>
 
 <!-- 
