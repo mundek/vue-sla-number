@@ -6,24 +6,29 @@
       <input type="number" style="width:4em" size=4 
         :value="theRangeMin" 
         v-on:change="updateRange('rangeMin', $event.target.value)"
+        @keyup.enter="beginQuiz"
       />
       <h4 style="display:inline-block;margin:0;">&nbsp;to&nbsp;</h4>
-      <input type="number" style="width:10em" size=10 
+      <input type="number" style="width:4em" size=4
         :value="theRangeMax" 
         v-on:change="updateRange('rangeMax', $event.target.value)" 
+        @keyup.enter="beginQuiz"
       />&nbsp;(max: {{theRangeMaxConst}})
     </div>
-    <div class="theNumbersHeader"><h3>Choose how many randomly chosen numbers you want to try:</h3></div>
+    <div class="theNumbersHeader">
+      <h3>Choose how many randomly chosen numbers you want to try:</h3>
+    </div>
     <div class="theNumbers">
       <div style="margin:1em 0;">
         <input type="number" style="width:3em;" size=4 maxlength=3 
         :value="theQuizLength" 
         v-on:change="updateLength($event.target.value)"
-      >&nbsp;(max: {{theQuizLenConst}})
+        @keyup.enter="beginQuiz"
+      />&nbsp;(max: {{theQuizLenConst}})
       </div>
     </div>
     <div class="theButton" style="text-align:right;">
-      <button class="ui button" @click="beginQuiz">Begin</button>
+      <button class="ui button big" @click="beginQuiz">Begin</button>
     </div>
   </div>
 </template>
@@ -35,12 +40,8 @@ export default {
   name: "Start",
   computed: {
     ...mapGetters([
-      "theRangeMin",
-      "theRangeMax",
-      "theQuizLength",
-      "theRangeMinConst",
-      "theRangeMaxConst",
-      "theQuizLenConst"
+      "theRangeMin", "theRangeMax", "theQuizLength",
+      "theRangeMinConst", "theRangeMaxConst", "theQuizLenConst"
     ])
   },
   methods: {
@@ -52,7 +53,7 @@ export default {
     updateLength(value) {
       this.$store.dispatch("updateQuizLength", value);
     },
-    ...mapActions(["restartQuiz", "beginQuiz"])
+    ...mapActions(["beginQuiz", "displayResults"])
   }
 };
 </script>

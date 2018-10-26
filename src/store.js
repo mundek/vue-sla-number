@@ -44,7 +44,7 @@ export default new Vuex.Store({
       state.currentUserAnswer = '';
       state.quizQuestionIndex = 0;
       state.totalCorrect = 0;
-      console.log('State reset.');
+      // console.log('State reset.');
     },
     setStartState: () => {
       router.push('/');
@@ -52,8 +52,9 @@ export default new Vuex.Store({
     setQuizState: () => {
       router.push('quiz');
     },
-    setResultsState: () => {
-      router.push('results')
+    setResultsState: (state) => {
+      state.randNumArr = state.randNumArr.slice(0, state.quizQuestionIndex);
+      router.push('results');
     },
     setNumberList: (state) => {
       let theRange = (state.range.rangeMax - state.range.rangeMin) + 1;
@@ -69,7 +70,7 @@ export default new Vuex.Store({
         }
         Vue.set(state.randNumArr, listItems++, aRandNum);
       }
-      console.log(state.randNumArr);
+      // console.log(state.randNumArr);
     },
     setRange: function(state, payload) {
       let newMin = parseInt(payload.rangeMin);

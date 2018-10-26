@@ -1,6 +1,6 @@
 <template>
   <div class="AppHeader ui container">
-    <h3>Number Practice App | {{theStoreMsg}}</h3>
+    <h1>Spanish Number Practice</h1>
     <hr/>
   </div>
 </template>
@@ -14,7 +14,6 @@ export default {
     ...mapGetters(['theStoreMsg'])
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

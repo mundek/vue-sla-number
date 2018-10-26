@@ -14,12 +14,12 @@
         <button class="ui button" @click="checkResponse">Check</button>
       </div>
       <div class="theScore">
-        <h3>{{ theCurrentPercentage }}% correct</h3>
+        <h2>{{ theCurrentPercentage }}% correct</h2>
         <p>{{ theCorrectCount }} correct out of {{ theQuestionIndex }} questions answered</p>
         <em>{{ theQuizLength }} questions total</em>
       </div>
       <div class="theButton" style="text-align:right;">
-        <button class="ui button">Finish</button>
+        <button class="ui button big" @click="displayResults">Finish</button>
       </div>
     </div>
 </template>
@@ -48,7 +48,7 @@ export default {
       let aNumber = this.$store.state.randNumArr[
         this.$store.state.quizQuestionIndex
       ];
-      if (aNumber) {
+      if ((aNumber) || (aNumber.toString())) {
         window.responsiveVoice.speak(
           String(aNumber),
           "Spanish Latin American Female"
@@ -63,10 +63,7 @@ export default {
       // console.log("str: " + str + " | !str: " + (!str) + " | str.length: " + str.length);
       if (str.length) {
         this.$store.dispatch("updateUserAnswerArr", value);
-        if (
-          this.$store.state.quizQuestionIndex <
-          this.$store.state.randNumArr.length
-        ) {
+        if (this.$store.state.quizQuestionIndex < this.$store.state.randNumArr.length) {
           this.playNumber();
         }
       } else {

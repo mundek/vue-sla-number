@@ -1,5 +1,5 @@
 <template>
-  <div class="AppFooter">
+  <div class="AppDebugFooter">
     <hr/>
     <button class="ui basic button" @click="restartQuiz">(Re)start Quiz</button>
     <button class="ui basic button" @click="beginQuiz">Begin Quiz</button>
@@ -12,7 +12,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'AppFooter',
+  name: 'AppDebugFooter',
   computed: {
     ...mapGetters(['theStoreMsg', 'theRangeMin', 'theRangeMax'])
   },

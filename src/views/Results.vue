@@ -1,21 +1,23 @@
 <template>
   <div class="results results-container">
     <div class="resultsHead">
-      <h3>RESULTS</h3>
+      <h2>Results</h2>
     </div>
     <div class="theResults" :class="{ 'results-list-one-col': numbCols(), 'results-list-two-col': !numbCols()}">
       <div
         v-for="(aNumber, index) in theRandNumbers" 
         :key="index"
       >
-        <div class="ui label" style="width:6em;display:inline-block;margin:0;">
+        <div class="ui label large" style="width:6em;display:inline-block;margin:0;">
           <i class="playButton play circle icon" @click="playANumber(aNumber)"></i>
           {{ aNumber }}
         </div>
-        <div v-if="isIncorrect(index)" class="ui basic label" style="width:6em;display:inline-block;margin:0;">
+        <div v-if="isIncorrect(index)" 
+          class="ui basic label large" 
+          style="width:6em;display:inline-block;margin:0;"
+        >
           <i class="playButton play circle icon" @click="playANumber(theUserResponses[index])"></i>
-          <div
-            style="display:inline-block;color:red;font-weight:900">
+          <div style="display:inline-block;color:red;font-weight:900">
             {{ theUserResponses[index] }}
           </div>
         </div>
@@ -28,16 +30,15 @@
     <div class="theStats">
       <h3>{{ theCurrentPercentage }}% correct</h3>
       <p>{{ theCorrectCount }} correct out of {{ theQuestionIndex }} questions answered</p>
-      <em>{{ theQuizLength }} questions total</em>
     </div>
     <div class="restartBt" style="text-align:right;">
-      <button class="ui button">New Quiz</button>
+      <button class="ui button big" @click="restartQuiz">New Quiz</button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Results",
@@ -60,14 +61,15 @@ export default {
         return false;
       }
     },
-    playANumber(aNumber) {
+    playANumber: function(aNumber) {
       if (aNumber) {
         window.responsiveVoice.speak(
           String(aNumber),
           "Spanish Latin American Female"
         );
       }
-    }
+    },
+    ...mapActions(["restartQuiz"])
   }
 };
 </script>
@@ -76,12 +78,13 @@ export default {
 .results-container {
   display: grid;
   grid-gap: 10px;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto auto;
   grid-template-areas:
     "resultsHead resultsHead"
     "theResults theStats"
+    "theResults theStats"
     "theResults theButton";
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto auto;
 }
 .resultsHead {
   grid-area: resultsHead;
@@ -100,6 +103,7 @@ export default {
 }
 .results-list-two-col {
   column-count: 2;
+  column-rule: 2px solid lightslategray;
 }
 .playButton {
   cursor: pointer;
