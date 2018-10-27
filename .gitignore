@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 dev_templates
-/dist
+# /dist # do not ignore this subdirectory; needed for deployment to heroku
 
 # local env files
 .env.local
