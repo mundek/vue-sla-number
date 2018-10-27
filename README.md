@@ -1,21 +1,3 @@
-# buttons.and.components
+This is a vuejs and vuex-based version of the Spanish number-learning app that Free Code campers developed in 2017 using vanilla javascript.
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+There is a live version of the app on [Heroku](https://spanish-number-practice.herokuapp.com/).
