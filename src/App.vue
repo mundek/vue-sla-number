@@ -4,18 +4,21 @@
         <div>
             <router-view />
         </div>
-<!--        <div><app-debug-footer /></div> -->
+       <div><app-footer /></div>
+       <!-- <div><app-debug-footer /></div> -->
     </div>
 </template>
 
 <script>
 import AppHeader from "./components/AppHeader";
+import AppFooter from "./components/AppFooter";
 // import AppDebugFooter from "./components/AppDebugFooter";
 
 export default {
   name: "App",
   components: {
     AppHeader,
+    AppFooter,
 //    AppDebugFooter
   }
 };
@@ -25,6 +28,6 @@ export default {
 <style scoped>
 .the-app-container {
   display: inline-grid;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto 80% auto;
 }
 </style>

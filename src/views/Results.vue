@@ -8,18 +8,18 @@
         v-for="(aNumber, index) in theRandNumbers" 
         :key="index"
       >
-        <div class="ui label large" style="width:6em;display:inline-block;margin:0;">
-          <i class="playButton play circle icon" @click="playANumber(aNumber)"></i>
-          {{ aNumber }}
-        </div>
-        <div v-if="isIncorrect(index)" 
-          class="ui basic label large" 
-          style="width:6em;display:inline-block;margin:0;"
+        <div @click="playANumber(aNumber)"
+          class="ui label"
+          style="width:8em;display:inline-block;margin:0;"
         >
-          <i class="playButton play circle icon" @click="playANumber(theUserResponses[index])"></i>
-          <div style="display:inline-block;color:red;font-weight:900">
-            {{ theUserResponses[index] }}
-          </div>
+          <i class="playButton play circle icon large"> {{ aNumber }}</i>
+        </div>
+        <div v-if="isIncorrect(index)"
+          @click="playANumber(theUserResponses[index])"
+          class="ui label" 
+          style="width:8em;display:inline-block;margin:0;color:red;font-weight:900"
+        >
+          <i class="playButton play circle icon large"> {{ theUserResponses[index] }}</i>
         </div>
       </div>
       <!---
@@ -55,7 +55,7 @@ export default {
       }
     },
     numbCols: function() {
-      if(this.$store.state.quizLength < 11) {
+      if(this.$store.state.quizQuestionIndex < 11) {
         return true;
       } else {
         return false;
